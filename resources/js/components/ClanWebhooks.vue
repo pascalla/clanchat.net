@@ -78,10 +78,21 @@ export default {
             })
             .then((response) => {
                 this.toast.success(response.data.data);
+                this.secretForm.nickname = '';
+                this.getSecrets();
             })
             .catch((error) => {
                 this.toast.error(error.response.data);
             })
+        },
+        getSecrets() {
+            axios.get('/api/clan-secret/' + this.clanid)
+                .then((response) => {
+                    this.keys = response.data.data;
+                })
+                .catch((error) => {
+                    this.toast.error(error.response.data);
+                })
         }
     }
 }

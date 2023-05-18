@@ -74,20 +74,27 @@ export default {
         const toast = useToast();
         return { toast }
     },
+    mounted() {
+        this.emitter.on("added-clan", added => {
+            this.getClans();
+        });
+    },
     created() {
-        axios.get('/api/clan')
-            .then((response) => {
-                this.clans = response.data.data;
-            })
-            .catch((error) => {
-                this.toast.error("There was an error fetching your clans.")
-            })
-            .finally(() => {
-                this.isLoading = false;
-            })
+        this.getClans();
     },
     methods: {
-
+        getClans: function() {
+            axios.get('/api/clan')
+                .then((response) => {
+                    this.clans = response.data.data;
+                })
+                .catch((error) => {
+                    this.toast.error("There was an error fetching your clans.")
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                })
+        }
     }
 }
 </script>

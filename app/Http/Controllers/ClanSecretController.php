@@ -66,9 +66,15 @@ class ClanSecretController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ClanSecretKey $clanSecretKey)
+    public function show(Clan $clan, Request $request)
     {
-        //
+        $clan = Clan::findOrFail($clan->id);
+
+        if ($request->user()->cannot('update', $clan)) {
+            abort(403);
+        }
+
+        return response()->json(array('status' => 'success', 'data' => $clan->secrets));
     }
 
     /**
