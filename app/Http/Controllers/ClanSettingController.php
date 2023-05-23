@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
 class ClanSettingController extends Controller
@@ -52,16 +53,16 @@ class ClanSettingController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'clan_id' => 'required|exists:App\Models\Clan,id',
-            'discord_webhook' => 'required',
-            'clan_chat' => 'required',
-            'collection_log' => 'required',
-            'quests' => 'required',
-            'pets' => 'required',
-            'pbs' => 'required',
-            'pvp' => 'required',
-            'attendance' => 'required',
-            'icons' => 'required',
+            'clan_id' => ['required', 'exists:App\Models\Clan,id'],
+            'discord_webhook' => ['required'],
+            'clan_chat' => ['required', 'string','in:true,false'],
+            'collection_log' => ['required','string','in:true,false'],
+            'quests' => ['required','string','in:true,false'],
+            'pets' => ['required','string','in:true,false'],
+            'pbs' => ['required','string','in:true,false'],
+            'pvp' => ['required','string','in:true,false'],
+            'attendance' => ['required','string','in:true,false'],
+            'icons' => ['required','string','in:true,false'],
         ]);
 
         if ($validator->stopOnFirstFailure()->fails()) {
