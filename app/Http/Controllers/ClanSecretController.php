@@ -88,7 +88,7 @@ class ClanSecretController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ClanSecretKey $clanSecretKey)
+    public function update(ClanSecretKey $clanSecretKey, Request $request)
     {
         //
     }
@@ -96,8 +96,17 @@ class ClanSecretController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ClanSecretKey $clanSecretKey)
+    public function destroy($clanSecretId, Request $request)
     {
-        //
+        $clanSecret = ClanSecretKey::findOrFail($clanSecretId);
+        $clan = Clan::findOrFail($clanSecret->clan_id);
+
+        if ($request->user()->cannot('update', $clan)) {
+            abort(403);
+        }
+
+        $clanSecret->delete();
+
+        return response()->json(array('status' => 'success', 'data' => 'Successfully deleted clan secret key.'));
     }
 }

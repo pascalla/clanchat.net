@@ -36,8 +36,9 @@ Route::resource('clan', ClanController::class)->only('show');
 // Resource Routes
 Route::prefix('api')->group(function () {
     Route::resource('clan', ClanController::class)->except('show');
-    Route::resource('clan-secret', ClanSecretController::class)->except(['show', 'index', 'edit', 'update', 'create']);
+    Route::resource('clan-secret', ClanSecretController::class)->except(['show', 'index', 'edit', 'update', 'create', 'destroy']);
     Route::get('clan-secret/{clan}', [ClanSecretController::class, 'show']);
+    Route::delete('clan-secret/{clan_secret_id}', [ClanSecretController::class, 'destroy']);
     Route::resource('clan-settings', ClanSettingController::class);
 });
 
