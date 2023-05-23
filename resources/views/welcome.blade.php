@@ -37,8 +37,6 @@
 
         <main id="app">
 
-            @include('cookie-consent::index')
-
             <div class="max-w-7xl mx-auto p-6 lg:p-8">
                 <div class="mt-16">
                     <welcome-splash></welcome-splash>
