@@ -12,7 +12,7 @@ class ClanMessage extends Model
     use HasFactory;
 
     public function generateHash() {
-        $hashString = ($this->username ??  '') . $this->content . substr($this->timestamp, 0, -1);
+        $hashString = ($this->username ??  '') . $this->content . substr($this->timestamp, 0, -2);
         return base64_encode($hashString);
     }
 
