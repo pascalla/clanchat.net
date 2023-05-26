@@ -34,6 +34,13 @@
                         </select>
                     </div>
                     <div>
+                        <label for="level_up" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Level Up</label>
+                        <select v-model="settings.level_up" id="drops" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="true">Enabled</option>
+                            <option value="false">Disabled</option>
+                        </select>
+                    </div>
+                    <div>
                         <label for="quests" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Quest Completions</label>
                         <select v-model="settings.quests" id="quests" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="true">Enabled</option>
@@ -96,6 +103,7 @@ export default {
                 clan_chat: "true",
                 collection_log: "true",
                 drops: "true",
+                level_up: "true",
                 quests: "true",
                 pets: "true",
                 pbs: "true",

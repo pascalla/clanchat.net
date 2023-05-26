@@ -23,6 +23,12 @@ class ClanMessage extends Model
         $message = $this->prefixAccountType($settings["icons"], $message);
 
         if ($this->systemMessageType == "NORMAL" && $settings["clan_chat"] == "true") {
+            // I missed out LEVEL_UP notifications on the plugin, I'm going to add this temporary fix here
+            if((str_contains($this->content, "has reached") && str_contains($this->content, "level")) && $settings['level_up'] == "true") {
+                $message .= $this->content;
+                return $message;
+            }
+
             $message .= "**" . $this->username . "**: " . $this->content;
             return $message;
         }
@@ -33,6 +39,11 @@ class ClanMessage extends Model
         }
 
         if ($this->systemMessageType == "DROP" && $settings['drop'] == "true") {
+            $message .= $this->content;
+            return $message;
+        }
+
+        if ($this->systemMessageType == "LEVEL_UP" && $settings['level_up'] == "true") {
             $message .= $this->content;
             return $message;
         }
