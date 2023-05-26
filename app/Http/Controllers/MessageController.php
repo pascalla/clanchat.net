@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ProcessMessage;
 use App\Models\ClanMessage;
 use App\Models\ClanSecretKey;
 use Illuminate\Contracts\Cache\LockTimeoutException;
@@ -35,37 +36,7 @@ class MessageController extends Controller
         $message->systemMessageType = $requestMessage->systemMessageType;
         $message->timestamp = $requestMessage->timestamp;
 
-        // acquire clan chat specific lock
-        $lock = Cache::lock('clan-lock-' . $clan->id, 10);
-
-        try {
-            $lock->block(5);
-
-            // Lock acquired after waiting a maximum of 5 seconds
-            $added = Cache::add($message->generateHash(), $clan->id, 10);
-
-            // check if message exists in redis
-            if(!$added) {
-                $lock?->release();
-                return response()->json(array('status' => 'success', 'data' => 'Message has already been processed'));
-            }
-
-        } catch (LockTimeoutException $e) {
-            // Unable to acquire lock...
-        } finally {
-            $lock?->release();
-        }
-
-        $webhook = $clan->settings()->where('key', 'discord_webhook')->get()->pluck('value')->first();
-
-        $settings = $clan->settings()->get()->mapWithKeys(function($setting, $key) {
-            return [$setting->key => $setting->value];
-        });
-
-        // send message to clan chat webhook
-        $response = Http::post($webhook, [
-            'content' => $message->generateDiscordMessage($settings)
-        ]);
+        ProcessMessage::dispatch($message, $clan);
 
         return response()->json(array('status' => 'success', 'data' => 'Message has been processed.'));
     }
