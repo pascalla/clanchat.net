@@ -93,8 +93,8 @@ class ClanController extends Controller
             abort(403);
         }
 
-        $clan->settings->delete();
-        $clan->secrets->delete();
+        $clan->settings()->delete();
+        $clan->secrets()->delete();
         $clan->delete();
 
         return response()->json(array('status' => 'success', 'data' => 'Sucessfully deleted Clan.'));
