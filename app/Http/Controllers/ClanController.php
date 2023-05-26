@@ -85,8 +85,18 @@ class ClanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id, Request $request)
     {
-        //
+        $clan = Clan::findOrFail($id);
+
+        if ($request->user()->cannot('update', $clan)) {
+            abort(403);
+        }
+
+        $clan->settings->delete();
+        $clan->secrets->delete();
+        $clan->delete();
+
+        return response()->json(array('status' => 'success', 'data' => 'Sucessfully deleted Clan.'));
     }
 }
