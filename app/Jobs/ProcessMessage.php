@@ -32,10 +32,10 @@ class ProcessMessage implements ShouldQueue
      *
      * @return array<int, object>
      */
-    public function middleware(): array
-    {
-        //return [new WithoutOverlapping($this->message->generateHash())];
-    }
+//    public function middleware(): array
+//    {
+//        return [new WithoutOverlapping($this->message->generateHash())];
+//    }
 
     /**
      * Execute the job.
