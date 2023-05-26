@@ -34,7 +34,7 @@ class ProcessMessage implements ShouldQueue
      */
     public function middleware(): array
     {
-        return [new WithoutOverlapping($this->message->generateHash())];
+        //return [new WithoutOverlapping($this->message->generateHash())];
     }
 
     /**
