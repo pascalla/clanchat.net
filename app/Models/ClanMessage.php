@@ -22,6 +22,9 @@ class ClanMessage extends Model
 
         $message = $this->prefixAccountType($settings["icons"], $message);
 
+        // sanitize any discord related roles/emojis/channels
+        $this->content = preg_replace('/<(?::\w+:|@!*&*|#)[0-9]+>/i',  '', $this->content);
+
         if ($this->systemMessageType == "NORMAL" && $settings["clan_chat"] == "true") {
             // I missed out LEVEL_UP notifications on the plugin, I'm going to add this temporary fix here
             if((str_contains($this->content, "has reached") && str_contains($this->content, "level")) && $settings['level_up'] == "true") {
