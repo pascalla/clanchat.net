@@ -39,7 +39,11 @@
 
             <div class="max-w-7xl mx-auto p-6 lg:p-8">
                 <div class="mt-16">
-                    <welcome-splash></welcome-splash>
+                    @auth
+                        <welcome-splash></welcome-splash>
+                    @else
+                        <welcome-splash :logged="true"></welcome-splash>
+                    @endauth
                 </div>
             </div>
         </main>
