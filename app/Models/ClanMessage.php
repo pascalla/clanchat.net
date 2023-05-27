@@ -24,8 +24,8 @@ class ClanMessage extends Model
 
         // sanitize any discord related roles/emojis/channels
         $this->content = preg_replace('/<(?::\w+:|@!*&*|#)[0-9]+>/i',  '', $this->content);
-        $this->content = str_replace('@everyone', '\@everyone', $this->content);
-        $this->content = str_replace('@here', '\@here', $this->content);
+        $this->content = str_replace('@everyone', '@\everyone', $this->content);
+        $this->content = str_replace('@here', '@\here', $this->content);
 
         if ($this->systemMessageType == "NORMAL" && $settings["clan_chat"] == "true") {
             // I missed out LEVEL_UP notifications on the plugin, I'm going to add this temporary fix here
