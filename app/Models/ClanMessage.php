@@ -27,6 +27,11 @@ class ClanMessage extends Model
         $this->content = str_replace('@everyone', '@ everyone', $this->content);
         $this->content = str_replace('@here', '@ here', $this->content);
         $this->content = str_replace('[', '\[', $this->content);
+        $this->content = str_replace('<', '\<', $this->content);
+        $this->content = str_replace('>', '\>', $this->content);
+        $this->content = str_replace('@', '\@', $this->content);
+        $this->content = str_replace('#', '\#', $this->content);
+        $this->content = str_replace(':', '\:', $this->content);
         $this->content = str_replace(']', '\]', $this->content);
         $this->content = str_replace('||', '\||', $this->content);
         $this->content = str_replace('/', '\/', $this->content);
