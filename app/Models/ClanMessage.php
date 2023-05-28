@@ -57,7 +57,7 @@ class ClanMessage extends Model
             return $message;
         }
 
-        if ($this->systemMessageType == "QUESTS" && $settings['quests'] == "true") {
+        if ($this->systemMessageType == "QUEST" && $settings['quests'] == "true") {
             $message .= $this->content;
             return $message;
         }
