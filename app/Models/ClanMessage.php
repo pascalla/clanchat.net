@@ -47,7 +47,7 @@ class ClanMessage extends Model
             return $message;
         }
 
-        if ($this->systemMessageType == "DROP" && $settings['drop'] == "true") {
+        if ($this->systemMessageType == "DROP" && $settings['drops'] == "true") {
             $message .= $this->content;
             return $message;
         }
