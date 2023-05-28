@@ -186,4 +186,6 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    // Custom
+    'admin_discord_id' => env('ADMIN_DISCORD_ID'),
 ];
