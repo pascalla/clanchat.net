@@ -20,8 +20,6 @@ class Clan extends Model
         'clan_status'
     ];
 
-    protected $with = array('secrets', 'settings');
-
     public function secrets() {
         return $this->hasMany(ClanSecretKey::class, 'clan_id', 'id');
     }
