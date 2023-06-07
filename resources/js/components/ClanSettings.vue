@@ -69,6 +69,27 @@
                         </select>
                     </div>
                     <div>
+                        <label for="combat_achievements" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Combat Achievements</label>
+                        <select id="combat_achievements" v-model="settings.combat_achievements" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="true">Enabled</option>
+                            <option value="false">Disabled</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="clue_drop" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Clue Drops</label>
+                        <select id="clue_drop" v-model="settings.clue_drop" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="true">Enabled</option>
+                            <option value="false">Disabled</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="achievement_diary" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Achievement Diary</label>
+                        <select id="achievement_diary" v-model="settings.diary" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="true">Enabled</option>
+                            <option value="false">Disabled</option>
+                        </select>
+                    </div>
+                    <div>
                         <label for="attendance" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Join/Leave</label>
                         <select id="attendance" v-model="settings.attendance" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                             <option value="true">Enabled</option>
@@ -109,6 +130,9 @@ export default {
                 pbs: "true",
                 pvp: "true",
                 attendance: "true",
+                combat_achievements: "true",
+                clue_drop: "true",
+                diary: "true",
                 icons: "true"
             }
         }
