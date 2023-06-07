@@ -52,8 +52,18 @@ class ProcessMessage implements ShouldQueue
         });
 
         // send message to clan chat webhook
-        $response = Http::post($webhook, [
+        $response = Http::timeout(3)->post($webhook, [
             'content' => $this->message->generateDiscordMessage($settings)
         ]);
+    }
+
+    /**
+     * Get the tags that should be assigned to the job.
+     *
+     * @return array<int, string>
+     */
+    public function tags(): array
+    {
+        return ['process', 'type:'.$this->message->systemMessageType];
     }
 }
