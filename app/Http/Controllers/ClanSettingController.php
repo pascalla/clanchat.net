@@ -26,6 +26,10 @@ class ClanSettingController extends Controller
         'pvp',
         'attendance',
         'icons',
+        'combat_achievements',
+        'clue_drop',
+        'diary',
+        'unknown'
     ];
 
     public function __construct()
@@ -67,6 +71,9 @@ class ClanSettingController extends Controller
             'pvp' => ['required','string','in:true,false'],
             'attendance' => ['required','string','in:true,false'],
             'icons' => ['required','string','in:true,false'],
+            'combat_achievements' => ['required','string','in:true,false'],
+            'clue_drop' => ['required','string','in:true,false'],
+            'diary' => ['required','string','in:true,false'],
         ]);
 
         if ($validator->stopOnFirstFailure()->fails()) {

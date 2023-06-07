@@ -64,6 +64,6 @@ class ProcessMessage implements ShouldQueue
      */
     public function tags(): array
     {
-        return ['process', 'type:'.$this->message->systemMessageType];
+        return ['process', 'type:'.$this->message->systemMessageType, 'clan:' . $this->message->clan->id];
     }
 }
