@@ -46,6 +46,11 @@ class ClanMessage extends Model
             return $message;
         }
 
+        if ($this->systemMessageType == "RAID_DROP" && $settings['drops'] == "true") {
+            $message .= $this->content;
+            return $message;
+        }
+
         if ($this->systemMessageType == "LEVEL_UP" && $settings['level_up'] == "true") {
             $message .= $this->content;
             return $message;
