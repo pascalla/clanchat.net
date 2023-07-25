@@ -2,22 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\ClanOwnership;
 use App\Models\Clan;
-use App\Models\ClanSecretKey;
+use App\Models\ClanGuest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
-class ClanSecretController extends Controller
+class ClanGuestController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      */
@@ -40,7 +33,7 @@ class ClanSecretController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nickname' => 'required|max:64',
+            'name' => 'required|max:64',
             'clan_id' => 'required|exists:App\Models\Clan,id'
         ]);
 
@@ -54,14 +47,12 @@ class ClanSecretController extends Controller
             abort(403);
         }
 
-        ClanSecretKey::create([
-            'nickname' => $request->nickname,
+        ClanGuest::create([
+            'name' => $request->name,
             'clan_id' => $request->clan_id,
-            'guest' => $request->exists('guest'),
-            'key' => Str::random(32)
         ]);
 
-        return response()->json(['status' => 'success', 'data' => 'Successfully created clan secret.']);
+        return response()->json(['status' => 'success', 'data' => 'Successfully added clan guest.']);
     }
 
     /**
@@ -75,21 +66,13 @@ class ClanSecretController extends Controller
             abort(403);
         }
 
-        $secrets = collect([]);
-
-        if($request->exists('guest')) {
-            $secrets = $clan->secretsGuest;
-        } else {
-            $secrets = $clan->secrets;
-        }
-
-        return response()->json(array('status' => 'success', 'data' => $secrets));
+        return response()->json(array('status' => 'success', 'data' => $clan->guests));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ClanSecretKey $clanSecretKey)
+    public function edit(string $id)
     {
         //
     }
@@ -97,7 +80,7 @@ class ClanSecretController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ClanSecretKey $clanSecretKey, Request $request)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -105,17 +88,17 @@ class ClanSecretController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($clanSecretId, Request $request)
+    public function destroy(string $clanGuestId, Request $request)
     {
-        $clanSecret = ClanSecretKey::findOrFail($clanSecretId);
-        $clan = Clan::findOrFail($clanSecret->clan_id);
+        $clanGuest = ClanGuest::findOrFail($clanGuestId);
+        $clan = Clan::findOrFail($clanGuest->clan_id);
 
         if ($request->user()->cannot('update', $clan)) {
             abort(403);
         }
 
-        $clanSecret->delete();
+        $clanGuest->delete();
 
-        return response()->json(array('status' => 'success', 'data' => 'Successfully deleted clan secret key.'));
+        return response()->json(array('status' => 'success', 'data' => 'Successfully deleted clan guest member.'));
     }
 }
