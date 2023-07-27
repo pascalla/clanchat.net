@@ -45,7 +45,9 @@ class MessageController extends Controller
                     $guest = strtolower($guest);
                     $message = strtolower($requestMessage->content);
 
-                    if (str_contains($message, $guest)) {
+                    $match = preg_match("/\b" . $guest . "\b/i", $message);
+
+                    if ($match == 1) {
                         $includes = true;
                     }
                 }
