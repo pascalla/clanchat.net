@@ -116,7 +116,7 @@ class ClanMessage extends Model
                 case "ULTIMATE_IRON":
                     $message .= "<:Ultimate_ironman_chat_badge:1082980849571602532> ";
                     break;
-                case "UNRANKED IRON":
+                case "UNRANKED_IRON":
                     $$message .= "<:Unranked_group_ironman_chat_badg:1082981035068895302> ";
                     break;
                 case "GROUP_IRON":
