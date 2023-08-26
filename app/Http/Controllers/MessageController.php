@@ -55,7 +55,7 @@ class MessageController extends Controller
                 if(!$includes) {
                     return response()->json(array('status' => 'success', 'data' => 'Message has been processed.'));
                 }
-                            }
+            }
         }
 
         $message = new ClanMessage;
@@ -63,6 +63,11 @@ class MessageController extends Controller
         $message->content = $requestMessage->content;
         $message->accountType = $requestMessage->accountType;
         $message->systemMessageType = $requestMessage->systemMessageType;
+
+        if($requestMessage->clanTitle) {
+            $message->clanTitle = $requestMessage->clanTitle;
+        }
+
         $message->timestamp = $requestMessage->timestamp;
 
         ProcessMessage::dispatch($message, $clan);
