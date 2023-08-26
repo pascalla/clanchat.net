@@ -105,14 +105,13 @@ class ClanMessage extends Model
     }
 
     public function prefixClanRank($message) {
-        if($this->clanTitle) {
+        if(isset($this->clanTitle)) {
             $rank = ClanRank::tryFrom($this->clanTitle);
 
             if($rank != null) {
                 $message .= " ". $rank->emoji();
             }
         }
-
 
         return $message;
     }
