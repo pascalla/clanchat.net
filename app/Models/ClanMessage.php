@@ -22,6 +22,10 @@ class ClanMessage extends Model
         $message = $this->prefixClanRank($message);
         $message = $this->prefixAccountType($settings["icons"], $message);
 
+        if(isset($message->clanTitle)) {
+            $message->clanTitle = $this->parseClanTitle($message->clanTitle);
+        }
+
         // sanitize any discord related roles/emojis/channels
         $this->content = preg_replace('/<(?::\w+:|@!*&*|#)[0-9]+>/i',  '', $this->content);
         $this->content = str_replace('@everyone', '@ everyone', $this->content);
