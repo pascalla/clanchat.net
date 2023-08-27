@@ -147,4 +147,11 @@ class ClanMessage extends Model
 
         return $message;
     }
+
+    private function parseClanTitle($title) {
+        $title = str_replace(" ", "_", $title);
+        $title = str_replace("-", "_", $title);
+
+        return $title;
+    }
 }

@@ -65,7 +65,7 @@ class MessageController extends Controller
         $message->systemMessageType = $requestMessage->systemMessageType;
 
         if(isset($requestMessage->clanTitle)) {
-            $message->clanTitle = $requestMessage->clanTitle;
+            $message->clanTitle = $message->parseClanTitle($requestMessage->clanTitle);
         }
 
         $message->timestamp = $requestMessage->timestamp;
