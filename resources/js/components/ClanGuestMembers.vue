@@ -5,7 +5,7 @@
                 Clan Guests
                 <span class="bg-purple-100 text-purple-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">Experimental</span>
             </h2>
-            <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Show broadcasts from these approved guest members.</h3>
+            <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Show broadcasts from these approved guest members. They should be using the "Guest Secret Keys"</h3>
         </header>
 
         <div class="grid gap-6 mb-6 md:grid-cols-2">
