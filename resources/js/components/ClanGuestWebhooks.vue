@@ -6,7 +6,7 @@
                 Clan Guest Secret Keys
                 <span class="bg-purple-100 text-purple-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300">Experimental</span>
             </h2>
-            <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">The Guest secret keys that point to this clan. It will only show broadcast messages (collection log, level up, loot drop, etc) from approved usernames set below.</h3>
+            <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">The Guest secret keys that point to this clan. It will only show broadcast messages (collection log, level up, loot drop, etc) from approved usernames set below. This will allow members in other clans to show there broadcasts, without seeing there regular clan chat.</h3>
         </header>
 
         <form @submit.prevent="add()">
