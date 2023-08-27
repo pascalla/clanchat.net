@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClanController;
+use App\Http\Controllers\ClanGuestController;
 use App\Http\Controllers\ClanSecretController;
 use App\Http\Controllers\ClanSettingController;
 use App\Http\Controllers\MessageController;
@@ -40,6 +41,9 @@ Route::prefix('api')->group(function () {
     Route::get('clan-secret/{clan}', [ClanSecretController::class, 'show']);
     Route::delete('clan-secret/{clan_secret_id}', [ClanSecretController::class, 'destroy']);
     Route::resource('clan-settings', ClanSettingController::class);
+    Route::get('clan-guest/{clan}', [ClanGuestController::class, 'show']);
+    Route::post('clan-guest', [ClanGuestController::class, 'store']);
+    Route::delete('clan-guest/{clan_guest_id}', [ClanGuestController::class, 'destroy']);
 });
 
 Route::prefix('webhook')->group(function () {

@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\ClanRank;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 
 class ClanMessage extends Model
 {
@@ -20,6 +19,7 @@ class ClanMessage extends Model
 
         $message = "";
 
+        $message = $this->prefixClanRank($message);
         $message = $this->prefixAccountType($settings["icons"], $message);
 
         // sanitize any discord related roles/emojis/channels
@@ -32,7 +32,7 @@ class ClanMessage extends Model
         $this->content = str_replace('`', '\`', $this->content);
 
         if ($this->systemMessageType == "NORMAL" && $settings["clan_chat"] == "true") {
-            $message .= "**" . $this->username . "**: " . $this->content;
+            $message .= " **" . $this->username . "**: " . $this->content;
             return $message;
         }
 
@@ -104,29 +104,41 @@ class ClanMessage extends Model
         return $message;
     }
 
+    public function prefixClanRank($message) {
+        if(isset($this->clanTitle)) {
+            $rank = ClanRank::tryFrom($this->clanTitle);
+
+            if($rank != null) {
+                $message .= " ". $rank->emoji();
+            }
+        }
+
+        return $message;
+    }
+
     public function prefixAccountType($setting, $message) {
         if($setting == "true") {
             switch ($this->accountType) {
                 case "IRON":
-                    $message .= "<:Ironman_chat_badge:1082980848200065034> ";
+                    $message .= "<:Ironman_chat_badge:1082980848200065034>";
                 break;
                 case "HARDCORE_IRON":
-                    $message .= "<:Hardcore_ironman_chat_badge:1082980846887243826> ";
+                    $message .= "<:Hardcore_ironman_chat_badge:1082980846887243826>";
                     break;
                 case "ULTIMATE_IRON":
-                    $message .= "<:Ultimate_ironman_chat_badge:1082980849571602532> ";
+                    $message .= "<:Ultimate_ironman_chat_badge:1082980849571602532>";
                     break;
-                case "UNRANKED IRON":
-                    $$message .= "<:Unranked_group_ironman_chat_badg:1082981035068895302> ";
+                case "UNRANKED_IRON":
+                    $message .= "<:Unranked_group_ironman_chat_badg:1082981035068895302>";
                     break;
                 case "GROUP_IRON":
-                    $message .= "<:Group_ironman_chat_badge:1082980845024985128> ";
+                    $message .= "<:Group_ironman_chat_badge:1082980845024985128>";
                     break;
                 case "HARDCORE_GROUP_IRON":
-                    $message .= "<:Hardcore_group_ironman_chat_badg:1082981031315001344> ";
+                    $message .= "<:Hardcore_group_ironman_chat_badg:1082981031315001344>";
                     break;
                 case "PLAYER_MODERATOR":
-                    $message .= "<:Player_moderator_emblem:1082981033340833804> ";
+                    $message .= "<:Player_moderator_emblem:1082981033340833804>";
                     break;
                 default:
                     break;
@@ -134,5 +146,12 @@ class ClanMessage extends Model
         }
 
         return $message;
+    }
+
+    private function parseClanTitle($title) {
+        $title = str_replace(" ", "_", $title);
+        $title = str_replace("-", "_", $title);
+
+        return $title;
     }
 }

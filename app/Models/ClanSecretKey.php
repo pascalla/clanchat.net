@@ -17,7 +17,8 @@ class ClanSecretKey extends Model
     protected $fillable = [
         'nickname',
         'clan_id',
-        'key'
+        'key',
+        'guest'
     ];
 
     public function clan() {
