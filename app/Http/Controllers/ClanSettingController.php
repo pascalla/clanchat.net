@@ -29,7 +29,9 @@ class ClanSettingController extends Controller
         'combat_achievements',
         'clue_drop',
         'diary',
-        'unknown'
+        'unknown',
+        'clan_icons',
+        'broadcast_icons'
     ];
 
     public function __construct()
@@ -74,6 +76,8 @@ class ClanSettingController extends Controller
             'combat_achievements' => ['required','string','in:true,false'],
             'clue_drop' => ['required','string','in:true,false'],
             'diary' => ['required','string','in:true,false'],
+            'clain_icons' => ['required','string','in:true,false'],
+            'broadcast_icons' => ['required','string','in:true,false'],
         ]);
 
         if ($validator->stopOnFirstFailure()->fails()) {

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\BroadcastType;
 use App\Enums\ClanRank;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,12 +20,9 @@ class ClanMessage extends Model
 
         $message = "";
 
-        $message = $this->prefixClanRank($message);
+        $message = $this->prefixClanRank($settings["clan_icons"], $message);
         $message = $this->prefixAccountType($settings["icons"], $message);
-
-        if(isset($message->clanTitle)) {
-            $message->clanTitle = $this->parseClanTitle($message->clanTitle);
-        }
+        $message = $this->prefixBroadcastType($settings["broadcast_icons"], $message);
 
         // sanitize any discord related roles/emojis/channels
         $this->content = preg_replace('/<(?::\w+:|@!*&*|#)[0-9]+>/i',  '', $this->content);
@@ -108,12 +106,27 @@ class ClanMessage extends Model
         return $message;
     }
 
-    public function prefixClanRank($message) {
-        if(isset($this->clanTitle)) {
-            $rank = ClanRank::tryFrom($this->clanTitle);
+    public function prefixClanRank($setting, $message) {
+        if($setting == "true") {
+            if(isset($this->clanTitle)) {
+                $rank = ClanRank::tryFrom($this->clanTitle);
 
-            if($rank != null) {
-                $message .= " ". $rank->emoji();
+                if($rank != null) {
+                    $message .= " ". $rank->emoji();
+                }
+            }
+        }
+
+        return $message;
+    }
+
+    public function prefixBroadcastType($setting, $message) {
+        // CHECK IF BROADCAST MESSAGE
+        if($setting == "true") {
+            $broadcast = BroadcastType::tryFrom($this->systemMessageType);
+
+            if($broadcast !== null) {
+                $message .= " ". $broadcast->emoji();
             }
         }
 
