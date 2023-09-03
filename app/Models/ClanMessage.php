@@ -103,7 +103,7 @@ class ClanMessage extends Model
             return $message;
         }
 
-        return $message;
+        return "";
     }
 
     public function prefixClanRank($setting, $message) {
