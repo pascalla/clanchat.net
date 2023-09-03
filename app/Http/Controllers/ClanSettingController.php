@@ -76,7 +76,7 @@ class ClanSettingController extends Controller
             'combat_achievements' => ['required','string','in:true,false'],
             'clue_drop' => ['required','string','in:true,false'],
             'diary' => ['required','string','in:true,false'],
-            'clain_icons' => ['required','string','in:true,false'],
+            'clan_icons' => ['required','string','in:true,false'],
             'broadcast_icons' => ['required','string','in:true,false'],
         ]);
 
