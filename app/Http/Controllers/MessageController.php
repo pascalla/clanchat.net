@@ -63,6 +63,7 @@ class MessageController extends Controller
             $message->content = $requestMessage->content;
             $message->accountType = $requestMessage->accountType;
             $message->systemMessageType = $requestMessage->systemMessageType;
+            $message->clanId = $clan->id;
 
             if (isset($requestMessage->clanTitle)) {
                 $message->clanTitle = $requestMessage->clanTitle;
