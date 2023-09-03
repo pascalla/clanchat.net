@@ -35,7 +35,7 @@ class MessageController extends Controller
             if ($clanSecret->guest) {
                 // only process system messages
                 if ($requestMessage->systemMessageType == "NORMAL") {
-                    return response()->json(array('status' => 'success', 'data' => 'Message has been processed.'));
+                    continue;
                 } else {
                     $guests = $clan->guests->pluck('name')->toArray();
 
@@ -53,7 +53,7 @@ class MessageController extends Controller
                     }
 
                     if (!$includes) {
-                        return response()->json(array('status' => 'success', 'data' => 'Message has been processed.'));
+                        continue;
                     }
                 }
             }
@@ -72,8 +72,8 @@ class MessageController extends Controller
             $message->timestamp = $requestMessage->timestamp;
 
             ProcessMessage::dispatch($message, $clan);
-
-            return response()->json(array('status' => 'success', 'data' => 'Message has been processed.'));
         }
+
+        return response()->json(array('status' => 'success', 'data' => 'Message has been processed.'));
     }
 }
