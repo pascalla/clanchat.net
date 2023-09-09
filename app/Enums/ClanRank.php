@@ -5,7 +5,7 @@ namespace App\Enums;
 use Exception;
 use ReflectionEnum;
 
-trait LazyEnum
+trait LazyEnumRank
 {
     public static function tryFrom($caseName): ?self
     {
@@ -25,7 +25,7 @@ trait LazyEnum
 
 enum ClanRank
 {
-    use LazyEnum;
+    use LazyEnumRank;
 
     case Achiever;
     case Adamant;
