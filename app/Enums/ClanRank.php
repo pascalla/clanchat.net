@@ -90,7 +90,7 @@ enum ClanRank
     case Death;
     case Defender;
     case Defiler;
-    case Deputy_owner;
+    case Deputy_Owner;
     case Destroyer;
     case Diamond;
     case Diseased;
@@ -365,7 +365,7 @@ enum ClanRank
             ClanRank::Death => '<:Death:1144313592284446731>',
             ClanRank::Defender => '<:Defender:1144313593635012680>',
             ClanRank::Defiler => '<:Defiler:1144313594863956160>',
-            ClanRank::Deputy_owner => '<:Deputy_owner:1144313595925110857>',
+            ClanRank::Deputy_Owner => '<:Deputy_owner:1144313595925110857>',
             ClanRank::Destroyer => '<:Destroyer:1144313597481193514>',
             ClanRank::Diamond => '<:Diamond:1144313598747877417>',
             ClanRank::Diseased => '<:Diseased:1144313599968428283>',
