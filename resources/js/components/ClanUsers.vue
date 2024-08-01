@@ -56,35 +56,6 @@
     </section>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            users: [], // Array of users
-            authUserId: null, // ID of the authenticated user
-            newUser: {
-                discord_id: ''
-            }
-        };
-    },
-    methods: {
-        removeUser(userId) {
-            // Implement the logic to remove a user from the clan
-        },
-        addUser() {
-            // Implement the logic to add a new user to the clan
-        }
-    },
-    created() {
-        // Fetch users and set authUserId here
-    }
-};
-</script>
-
-<style scoped>
-/* Add any scoped CSS here */
-</style>
-
 
 <script>
 import { ref, onMounted } from 'vue';
