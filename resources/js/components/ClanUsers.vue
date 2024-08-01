@@ -57,6 +57,36 @@
 </template>
 
 <script>
+export default {
+    data() {
+        return {
+            users: [], // Array of users
+            authUserId: null, // ID of the authenticated user
+            newUser: {
+                discord_id: ''
+            }
+        };
+    },
+    methods: {
+        removeUser(userId) {
+            // Implement the logic to remove a user from the clan
+        },
+        addUser() {
+            // Implement the logic to add a new user to the clan
+        }
+    },
+    created() {
+        // Fetch users and set authUserId here
+    }
+};
+</script>
+
+<style scoped>
+/* Add any scoped CSS here */
+</style>
+
+
+<script>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
@@ -101,12 +131,12 @@ export default {
             if (confirm('Are you sure you want to remove this user?')) {
                 try {
                     const response = await axios.delete(`/api/clan/${props.clanId}/remove-user/${userId}`);
-                    
-                    
+
+
                     const userIdToRemove = response.data.user.id;
                     users.value = users.value.filter(user => user.id !== userIdToRemove);
-                    
-                    
+
+
                     if (response.data.success) {
                         window.location.href = `/clan/${props.clanId}`;
                     }
