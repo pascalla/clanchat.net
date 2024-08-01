@@ -42,6 +42,12 @@
             </div>
         </div>
     </div>
+    
+    <clan-users
+        :clan-id="{{ $clan->id }}"
+        :initial-users="{{ json_encode($users) }}"
+        :auth-user-id="{{ Auth::id() }}"
+    ></clan-users>
 
     <div class="max-w-7xl pt-6 pb-6 mx-auto sm:px-6 lg:px-8">
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
