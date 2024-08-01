@@ -15,7 +15,6 @@
                         <tr>
                             <th scope="col" class="px-6 py-3">ID</th>
                             <th scope="col" class="px-6 py-3">Username</th>
-                            <th scope="col" class="px-6 py-3">Email</th>
                             <th scope="col" class="px-6 py-3"><span class="sr-only">Options</span></th>
                         </tr>
                     </thead>
@@ -23,7 +22,6 @@
                         <tr v-for="user in users" :key="user?.id" :class="{ 'bg-gray-100 dark:bg-gray-900': user?.id === authUserId }" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ user?.id }}</th>
                             <td class="px-6 py-4">{{ user?.username }}</td>
-                            <td class="px-6 py-4">{{ user?.email }}</td>
                             <td class="px-6 py-4 text-right">
                                 <button v-if="user?.id !== authUserId" @click="removeUser(user?.id)" class="font-medium text-red-600 dark:text-red-500 hover:underline">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -57,6 +55,36 @@
         </div>
     </section>
 </template>
+
+<script>
+export default {
+    data() {
+        return {
+            users: [], // Array of users
+            authUserId: null, // ID of the authenticated user
+            newUser: {
+                discord_id: ''
+            }
+        };
+    },
+    methods: {
+        removeUser(userId) {
+            // Implement the logic to remove a user from the clan
+        },
+        addUser() {
+            // Implement the logic to add a new user to the clan
+        }
+    },
+    created() {
+        // Fetch users and set authUserId here
+    }
+};
+</script>
+
+<style scoped>
+/* Add any scoped CSS here */
+</style>
+
 
 <script>
 import { ref, onMounted } from 'vue';
@@ -103,12 +131,12 @@ export default {
             if (confirm('Are you sure you want to remove this user?')) {
                 try {
                     const response = await axios.delete(`/api/clan/${props.clanId}/remove-user/${userId}`);
-                    
-                    
+
+
                     const userIdToRemove = response.data.user.id;
                     users.value = users.value.filter(user => user.id !== userIdToRemove);
-                    
-                    
+
+
                     if (response.data.success) {
                         window.location.href = `/clan/${props.clanId}`;
                     }
