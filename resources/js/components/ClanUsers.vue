@@ -10,7 +10,6 @@
                             <tr>
                                 <th class="px-4 py-2 text-left">ID</th>
                                 <th class="px-4 py-2 text-left">Username</th>
-                                <th class="px-4 py-2 text-left">Email</th>
                             </tr>
                         </thead>
                         <tbody>
