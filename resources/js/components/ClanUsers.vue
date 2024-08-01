@@ -17,7 +17,6 @@
                             <tr v-for="user in users" :key="user?.id" :class="{ 'bg-gray-100 dark:bg-gray-900': user?.id === authUserId }">
                                 <td class="px-4 py-2">{{ user?.id }}</td>
                                 <td class="px-4 py-2">{{ user?.username }}</td>
-                                <td class="px-4 py-2">{{ user?.email }}</td>
                                 <td class="px-4 py-2 text-right">
                                     <button v-if="user?.id !== authUserId" @click="removeUser(user?.id)" class="text-red-600 hover:text-red-900">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -97,12 +96,12 @@ export default {
             if (confirm('Are you sure you want to remove this user?')) {
                 try {
                     const response = await axios.delete(`/api/clan/${props.clanId}/remove-user/${userId}`);
-                    
-                    
+
+
                     const userIdToRemove = response.data.user.id;
                     users.value = users.value.filter(user => user.id !== userIdToRemove);
-                    
-                    
+
+
                     if (response.data.success) {
                         window.location.href = `/clan/${props.clanId}`;
                     }

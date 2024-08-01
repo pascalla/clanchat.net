@@ -55,7 +55,7 @@ class ClanController extends Controller
             'name' => $request->name,
             'secret' => Str::random(32)
         ]);
-        
+
         $clan->users()->attach(Auth::id());
 
         return response()->json(['status' => 'success', 'data' => 'Successfully created clan.']);
@@ -68,7 +68,7 @@ class ClanController extends Controller
     {
         $clan = Clan::findOrFail($id);
 
-        $users = $clan->users()->get(['users.id', 'users.username', 'users.email']);
+        $users = $clan->users()->get(['users.id', 'users.username']);
 
         return view('clan', compact('clan', 'users'));
     }
@@ -115,21 +115,21 @@ class ClanController extends Controller
         $validator = Validator::make($request->all(), [
             'discord_id' => 'required|exists:users,id',
         ]);
-    
+
         if ($validator->fails()) {
             return response()->json(['status' => 'error', 'errors' => $validator->errors()], 400);
         }
-    
+
         $clan = Clan::findOrFail($clanId);
         $user = User::findOrFail($request->input('discord_id'));
-    
+
         // Check if the user is already a member of the clan
         if ($clan->users->contains($user->id)) {
             return response()->json(['status' => 'error', 'message' => 'User is already a member of the clan'], 400);
         }
-    
+
         $clan->users()->attach($user);
-    
+
         $user = [
             'id' => $user->id,
             'username' => $user->username,
@@ -152,22 +152,22 @@ class ClanController extends Controller
         } catch (ModelNotFoundException $e) {
             return redirect()->back()->with('error', 'User not found.');
         }
-    
+
         if (Auth::id() == $user->id) {
             return redirect()->back()->with('error', 'You cannot remove yourself from the clan.');
         }
-    
+
 
         if (!$clan->users->contains($user->id)) {
             return redirect()->back()->with('error', 'User is not part of this clan.');
         }
-    
+
         try {
             $clan->users()->detach($user->id);
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred while removing the user.');
         }
-    
+
         $user = [
             'id' => $user->id,
             'username' => $user->username,
@@ -180,7 +180,7 @@ class ClanController extends Controller
             'user' => $user
         ]);
     }
-    
-    
+
+
 
 }
