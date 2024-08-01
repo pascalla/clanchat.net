@@ -57,7 +57,8 @@ class User extends Authenticatable
         'roles' => 'json',
     ];
 
-    public function clans() {
-        return $this->hasMany(Clan::class, 'user_id', 'id');
+    public function clans()
+    {
+        return $this->belongsToMany(Clan::class, 'clan_users', 'user_id', 'clan_id');
     }
 }

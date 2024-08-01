@@ -39,4 +39,8 @@ class Clan extends Model
     public function guests() {
         return $this->hasMany(ClanGuest::class, 'clan_id', 'id');
     }
+
+    public function users() {
+        return $this->belongsToMany(User::class, 'clan_users', 'clan_id', 'user_id');
+    }
 }

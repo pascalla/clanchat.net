@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Clan;    
 use Symfony\Component\HttpFoundation\Response;
 
 class ClanOwnership
@@ -16,7 +17,9 @@ class ClanOwnership
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if($request->clan->user_id != Auth::user()->id) {
+        $clan = Clan::findOrFail($request->clan);
+
+        if (!$clan->users->contains(Auth::user())) {
             return redirect('dashboard');
         }
 

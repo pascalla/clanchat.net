@@ -44,6 +44,11 @@ Route::prefix('api')->group(function () {
     Route::get('clan-guest/{clan}', [ClanGuestController::class, 'show']);
     Route::post('clan-guest', [ClanGuestController::class, 'store']);
     Route::delete('clan-guest/{clan_guest_id}', [ClanGuestController::class, 'destroy']);
+
+    // Custom routes for adding and removing a user to/from a clan
+    Route::post('clan/{clan}/add-user', [ClanController::class, 'addUserToClan'])->name('clan.addUser');
+    Route::delete('clan/{clan}/remove-user/{user}', [ClanController::class, 'removeUserFromClan'])->name('clan.removeUser');
+    Route::get('clan/{clan}', [ClanController::class, 'show']);
 });
 
 Route::prefix('webhook')->group(function () {

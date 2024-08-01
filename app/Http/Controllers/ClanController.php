@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\ClanOwnership;
 use App\Models\Clan;
+use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
+
 
 class ClanController extends Controller
 {
@@ -24,7 +27,7 @@ class ClanController extends Controller
     public function index()
     {
         $clans = Auth::user()->clans()->get()->map->only('name', 'id', 'status');
-        return response()->json(array('status' => 'success', 'data' => $clans));
+        return response()->json(['status' => 'success', 'data' => $clans]);
     }
 
     /**
@@ -48,11 +51,12 @@ class ClanController extends Controller
             return response()->json($validator->messages()->first(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        Clan::create([
+        $clan = Clan::create([
             'name' => $request->name,
-            'user_id' => Auth::id(),
             'secret' => Str::random(32)
         ]);
+        
+        $clan->users()->attach(Auth::id());
 
         return response()->json(['status' => 'success', 'data' => 'Successfully created clan.']);
     }
@@ -60,10 +64,13 @@ class ClanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Clan $clan)
+    public function show($id)
     {
+        $clan = Clan::findOrFail($id);
 
-        return view('clan')->with('clan', $clan)->with('status', $clan->chat_status);
+        $users = $clan->users()->get(['users.id', 'users.username', 'users.email']);
+
+        return view('clan', compact('clan', 'users'));
     }
 
     /**
@@ -97,6 +104,83 @@ class ClanController extends Controller
         $clan->secrets()->delete();
         $clan->delete();
 
-        return response()->json(array('status' => 'success', 'data' => 'Sucessfully deleted Clan.'));
+        return response()->json(['status' => 'success', 'data' => 'Successfully deleted Clan.']);
     }
+
+    /**
+     * Add a user to a clan.
+     */
+    public function addUserToClan(Request $request, $clanId)
+    {
+        $validator = Validator::make($request->all(), [
+            'discord_id' => 'required|exists:users,id',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'errors' => $validator->errors()], 400);
+        }
+    
+        $clan = Clan::findOrFail($clanId);
+        $user = User::findOrFail($request->input('discord_id'));
+    
+        // Check if the user is already a member of the clan
+        if ($clan->users->contains($user->id)) {
+            return response()->json(['status' => 'error', 'message' => 'User is already a member of the clan'], 400);
+        }
+    
+        $clan->users()->attach($user);
+    
+        $user = [
+            'id' => $user->id,
+            'username' => $user->username,
+            'email' => $user->email,
+        ];
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User added to clan successfully',
+            'user' => $user
+        ]);
+    }
+
+
+    public function removeUserFromClan(Request $request, Clan $clan, $userId)
+    {
+        try {
+            $user = User::findOrFail($userId);
+
+        } catch (ModelNotFoundException $e) {
+            return redirect()->back()->with('error', 'User not found.');
+        }
+    
+        if (Auth::id() == $user->id) {
+            return redirect()->back()->with('error', 'You cannot remove yourself from the clan.');
+        }
+    
+
+        if (!$clan->users->contains($user->id)) {
+            return redirect()->back()->with('error', 'User is not part of this clan.');
+        }
+    
+        try {
+            $clan->users()->detach($user->id);
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'An error occurred while removing the user.');
+        }
+    
+        $user = [
+            'id' => $user->id,
+            'username' => $user->username,
+            'email' => $user->email,
+        ];
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User removed from clan.',
+            'user' => $user
+        ]);
+    }
+    
+    
+
 }

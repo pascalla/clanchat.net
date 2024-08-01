@@ -21,7 +21,7 @@ class ClanPolicy
      */
     public function view(User $user, Clan $clan): bool
     {
-        return $user->id == $clan->user_id;
+        return $clan->users->contains($user->id);
     }
 
     /**
@@ -37,7 +37,7 @@ class ClanPolicy
      */
     public function update(User $user, Clan $clan): bool
     {
-        return $user->id == $clan->user_id;
+        return $clan->users->contains($user->id);
     }
 
     /**
@@ -45,7 +45,7 @@ class ClanPolicy
      */
     public function delete(User $user, Clan $clan): bool
     {
-        return $user->id == $clan->user_id;
+        return $clan->users->contains($user->id);
     }
 
     /**
