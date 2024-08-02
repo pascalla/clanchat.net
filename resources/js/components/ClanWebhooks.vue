@@ -27,6 +27,9 @@
                         <th scope="col" class="px-6 py-3 green">
                             Secret Key
                         </th>
+                        <th scope="col" class="px-6 py-3 green">
+                            Last Used
+                        </th>
                         <th scope="col" class="px-6 py-3">
                             <span class="sr-only">Options</span>
                         </th>
@@ -39,6 +42,9 @@
                             </th>
                             <td class="px-6 py-4">
                                 {{ key.key }}
+                            </td>
+                            <td class="px-6 py-4">
+                                {{ formatDate(key.updated_at) }}
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <button type="button" data-modal-toggle="deleteModal" v-on:click="pendingDelete = key" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</button>
@@ -93,6 +99,11 @@ export default {
         const toast = useToast();
         return { toast }
     },
+    computed: {
+        formattedUpdatedAt() {
+            return this.keys.map(key => this.formatDate(key.updated_at));
+        }
+    },
     methods: {
         add() {
             axios.post('/api/clan-secret', {
@@ -129,7 +140,13 @@ export default {
                 .catch((error) => {
                     this.toast.error(error.response.data);
                 })
-        }
+        },
+        formatDate(date) {
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const userLocale = navigator.language || 'en-US'; // Fallback to 'en-US' if navigator.language is not available
+
+            return new Date(date).toLocaleString(userLocale, options);
+        },
     }
 }
 </script>
