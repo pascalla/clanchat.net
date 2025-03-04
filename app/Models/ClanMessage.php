@@ -84,6 +84,8 @@ class ClanMessage extends Model
         }
 
         if ($this->systemMessageType == "COMBAT_ACHIEVEMENTS" && $settings['combat_achievements'] == "true") {
+            // Remove CA identifier that prefixes the message for some reason on combat tasks.
+            $this->content = str_replace('/(CA_ID:[0-9]+\|)/i', '', $this->content);
             $message .= $this->content;
             return $message;
         }
