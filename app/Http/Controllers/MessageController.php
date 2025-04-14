@@ -25,6 +25,8 @@ class MessageController extends Controller
             $clanSecret = ClanSecretKey::where('key', $secretKey)->firstOrFail();
             $clan = $clanSecret->clan;
 
+            $clanSecret->touch();
+
             if ($clan->status === "INACTIVE") {
                 return response()->json(array('status' => 'success', 'data' => 'Clan is not setup yet.'));
             }
