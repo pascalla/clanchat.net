@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Jobs\ProcessMessage;
 use App\Models\ClanMessage;
 use App\Models\ClanSecretKey;
+use App\Models\IgnoredUsername;
 use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -31,6 +32,10 @@ class MessageController extends Controller
 
             // process message into Message object
             $requestMessage = json_decode($request->data);
+
+            if (isset($requestMessage->author) && IgnoredUsername::where('username_normalized', strtolower($requestMessage->author))->exists()) {
+                return response()->json(array('status' => 'success', 'data' => 'Username is ignored.'));
+            }
 
             if ($clanSecret->guest) {
                 // only process system messages
